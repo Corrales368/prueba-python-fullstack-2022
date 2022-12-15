@@ -18,10 +18,10 @@ class FilmSerializer(serializers.ModelSerializer):
     """
     Serializer for model Film
     """
-    category = serializers.StringRelatedField()
+    category = CategorySerializers()
     class Meta:
         model = Film
-        fields = '__all__'    
+        fields = '__all__'  
 
 
 class FilmUserSerializer(serializers.ModelSerializer):

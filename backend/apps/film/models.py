@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 
 # Import self app
 from .choices import TYPE_FILM
-
+from .manager import FilmUserManager
 
 class Category(models.Model):
     """
@@ -39,14 +39,12 @@ class FilmUser(models.Model):
     rating = models.SmallIntegerField()
     watched = models.BooleanField(default=False)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['film', 'user'], name='algunnombre')
+        ]
+    
     def __str__(self) -> str:
         return f'{self.film} - {self.user}'
     
-    # def save(self, *args, **kwargs):
-    #     """
-    #     Override method save for validate relation 
-    #     """
-    #     film_by_user = FilmUser.objects.filter(Q(user=self.user) and Q(film=self.film)).count()
-    #     if film_by_user > 1:
-    #         raise ValidationError(('Invalid value'), code='invalid')
-    #     super(FilmUser, self).save(*args, **kwargs)
+    objects = FilmUserManager()

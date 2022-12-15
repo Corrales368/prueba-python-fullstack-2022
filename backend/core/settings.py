@@ -46,7 +46,8 @@ PROJECT_APPS = [
 
 # THIRD_PARTY_APPS
 THIRD_PARTY_APPS = [
-    'rest_framework'
+    'rest_framework',
+    'django_filters',
 ]
 
 # Application definition
@@ -137,3 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User Model
 AUTH_USER_MODEL = 'user.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
