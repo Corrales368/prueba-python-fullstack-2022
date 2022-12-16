@@ -1,12 +1,11 @@
 # Import django
 from django.db import models
 from django.conf import settings
-from django.db.models import Q
-from django.core.exceptions import ValidationError
 
 # Import self app
 from .choices import TYPE_FILM
-from .manager import FilmUserManager
+from .manager import FilmManager
+
 
 class Category(models.Model):
     """
@@ -28,6 +27,8 @@ class Film(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    objects = FilmManager()
 
 
 class FilmUser(models.Model):
@@ -45,6 +46,5 @@ class FilmUser(models.Model):
         ]
     
     def __str__(self) -> str:
-        return f'{self.film} - {self.user}'
+        return f'{self.film} - {self.user} - {self.rating}'
     
-    objects = FilmUserManager()

@@ -7,9 +7,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from random import choice
 
 # Import self app
-from apps.film.models import Film, FilmUser
+from apps.film.models import Film
 from .serializers import FilmSerializer
-
+from .filters import OrderingByRating
 
 class RandomFilmModelViewSet(viewsets.ModelViewSet):
     """
@@ -24,14 +24,18 @@ class RandomFilmModelViewSet(viewsets.ModelViewSet):
         """
         # get all films
         all_films = self.get_serializer().Meta.model.objects.all()
-        # get all films only pk as list
-        all_films_pk_list = all_films.values_list('pk', flat=True)
-        # get id random with function choice from random
-        random_pk = choice(all_films_pk_list)
-        # get film with random_pk
-        random_film = all_films.filter(pk=random_pk)
-        print(FilmUser.objects.get_average())
-        return random_film
+        # validate that data exists
+        if all_films:
+            # get all films only pk as list
+            all_films_pk_list = all_films.values_list('pk', flat=True)
+            # get id random with function choice from random
+            random_pk = choice(all_films_pk_list)
+            # get film with random_pk
+            random_film = all_films.filter(pk=random_pk)
+            return random_film
+        else:
+            return all_films
+
 
 
 class FilmModelViewSet(viewsets.ModelViewSet):
@@ -41,7 +45,7 @@ class FilmModelViewSet(viewsets.ModelViewSet):
     serializer_class = FilmSerializer
     http_method_names = ['get']
     queryset = Film.objects.all()
-    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, OrderingByRating, SearchFilter]
     filterset_fields = ['name']
-    ordering = ['pk', 'name', 'category', 'type']
+    ordering = ['pk', 'name', 'category', 'type', ]
     search_fields = ['name', 'type', 'category__name']

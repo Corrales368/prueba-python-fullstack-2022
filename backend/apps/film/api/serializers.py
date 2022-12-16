@@ -19,6 +19,7 @@ class FilmSerializer(serializers.ModelSerializer):
     Serializer for model Film
     """
     category = CategorySerializers()
+    # avg_rating = serializers.FloatField(read_only=True)
     class Meta:
         model = Film
         fields = '__all__'  

@@ -2,13 +2,16 @@
 from django.db import models
 
 
-class FilmUserManager(models.Manager):
+class FilmManager(models.Manager):
     """
-    Manager for model FilmUser
+    Manager for model Film
     """
     def get_average(self):
         """
-        Get average rating of all records filmuser 
+        Get average rating all records film
         """
-        average = self.aggregate(models.Avg('rating'))
-        return average               
+        average = self.annotate(
+            avg_rating=models.Avg('filmuser__rating')
+        )
+        return average
+        
