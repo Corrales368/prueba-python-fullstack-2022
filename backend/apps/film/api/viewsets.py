@@ -47,5 +47,5 @@ class FilmModelViewSet(viewsets.ModelViewSet):
     queryset = Film.objects.all()
     filter_backends = [DjangoFilterBackend, OrderingFilter, OrderingByRating, SearchFilter]
     filterset_fields = ['name']
-    ordering = ['pk', 'name', 'category', 'type', ]
+    ordering = ['pk', 'name', 'category', 'type']
     search_fields = ['name', 'type', 'category__name']
