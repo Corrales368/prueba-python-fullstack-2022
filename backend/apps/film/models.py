@@ -1,10 +1,11 @@
 # Import django
 from django.db import models
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Import self app
 from .choices import TYPE_FILM
-from .manager import FilmManager
+from .manager import FilmManager, FilmUserManager
 
 
 class Category(models.Model):
@@ -37,8 +38,15 @@ class FilmUser(models.Model):
     """
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    rating = models.SmallIntegerField()
+    rating = models.SmallIntegerField(
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ]
+    )
     watched = models.BooleanField(default=False)
+
+    objects = FilmUserManager()
 
     class Meta:
         constraints = [

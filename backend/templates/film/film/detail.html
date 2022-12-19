@@ -1,0 +1,63 @@
+<!-- HERENCIA DE BASE -->
+{% extends 'base/base.html' %}
+
+<!-- CARGAR ARCHIVOS ESTÁTICOS -->
+{% load static %}
+
+<!-- START DINAMIC SECTION -->
+{% block content %}
+<main>
+    <div class="container py-4">
+        {% include 'base/header.html' %}
+
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <img src="{% static 'image/load.png' %}" class="img-fluid " alt="logo" width="100%" height="100%"
+                        loading="lazy">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <h1 class="display-5 fw-bold">{{ object.name }}</h1>
+                        <p class="col-md-8 fs-4">Category: {{ object.category }}</p>
+                        <p class="col-md-8 fs-4">Type: {{ object.type }}</p>
+                        <p class="col-md-8 fs-4 mt-5">Rate it!</p>  
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-2">
+                                    {{ form_rate_it.rating }}                      
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-4">
+                <div class="col">
+                    <h4>Average rating {{ object.avg_rating|default_if_none:"no reviews" }}</h4>
+                </div>
+                {% for k, v in errors.items %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ v }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a href="{% url 'film:list-film' %}" class="btn btn-secondary btn-lg">Back</a>
+
+                </div>
+            </div>
+        </div>
+        {% include 'base/footer.html' %}
+    </div>
+</main>
+{% endblock content %}
+<!-- END DINAMIC SECTION -->
+

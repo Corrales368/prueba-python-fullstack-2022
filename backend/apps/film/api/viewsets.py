@@ -11,6 +11,7 @@ from apps.film.models import Film
 from .serializers import FilmSerializer
 from .filters import OrderingByRating
 
+
 class RandomFilmModelViewSet(viewsets.ModelViewSet):
     """
     ModelViewSet for get random film
@@ -35,7 +36,6 @@ class RandomFilmModelViewSet(viewsets.ModelViewSet):
             return random_film
         else:
             return all_films
-
 
 
 class FilmModelViewSet(viewsets.ModelViewSet):

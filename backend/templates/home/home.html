@@ -1,0 +1,29 @@
+<!-- HERENCIA DE BASE -->
+{% extends 'base/base.html' %}
+
+<!-- LOAD STATIC -->
+{% load static %}
+
+<!-- START DINAMIC SECTION -->
+{% block content %}
+<div class="px-4 pt-5 my-5 text-center">
+    <h1 class="display-4 fw-bold">Streaming App</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Unlimited movies and series and much more</p>
+        <p class="lead mb-4">Enjoy wherever you want. Cancel whenever you want.
+            Do you want to watch Streaming App now? Enter your email to create an account or restart your Streaming App
+            membership.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{% url 'home:explore' %}" class="btn btn-primary btn-lg px-4 me-sm-3">Know more</a>
+        </div>
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+        <div class="container px-5">
+            <img src="{% static 'image/streaming_app_logo.png' %}" class="img-fluid " alt="logo" width="300"
+                height="300" loading="lazy">
+        </div>
+    </div>
+</div>
+{% endblock content %}
+<!-- FIN CONTENIDO DINAMICO -->

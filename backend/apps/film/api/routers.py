@@ -8,8 +8,8 @@ from .viewsets import RandomFilmModelViewSet, FilmModelViewSet
 # Declare router
 router_film = DefaultRouter()
 
-router_film.register('api/random-film', RandomFilmModelViewSet, basename='random-film')
-router_film.register('api/films', FilmModelViewSet, basename='films')
+router_film.register('random-film', RandomFilmModelViewSet, basename='random-film')
+router_film.register('films', FilmModelViewSet, basename='films')
 
 
 
