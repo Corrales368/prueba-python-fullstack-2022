@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Import self app
 from .choices import TYPE_FILM
-from .manager import FilmManager, FilmUserManager
+from .manager import CategoryManager, FilmManager, FilmUserManager
 
 
 class Category(models.Model):
@@ -13,6 +13,8 @@ class Category(models.Model):
     Model for categories
     """
     name = models.CharField(max_length=50)
+
+    objects = CategoryManager()
 
     def __str__(self) -> str:
         return self.name

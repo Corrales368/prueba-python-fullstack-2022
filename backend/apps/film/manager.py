@@ -6,6 +6,19 @@ from django.db.models import Q
 from random import choice
 
 
+class CategoryManager(models.Manager):
+    """
+    Manager for model Category
+    """
+    def get_films_by_category(self):
+        """
+        Get number of films by category
+        """
+        return self.annotate(
+            count_film_by_category = models.Count('film')
+        )
+
+
 class FilmManager(models.Manager):
     """
     Manager for model Film

@@ -1,0 +1,34 @@
+<!-- HERENCIA DE BASE -->
+{% extends 'base/base.html' %}
+
+<!-- CARGAR ARCHIVOS ESTÁTICOS -->
+{% load static %}
+
+<!-- START DINAMIC SECTION -->
+{% block content %}
+<main>
+    <div class="container py-4">
+        {% include 'base/header.html' %}
+
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <h4>Are you sure you want to delete the <span class="text-lowercase badge bg-secondary">{{ object }}</span> category?</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-danger">Yes, i'm sure</button>
+                        <a href="{% url 'film:detail-category' object.pk %}" class="btn btn-outline-secondary">Go back</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% include 'base/footer.html' %}
+    </div>
+</main>
+{% endblock content %}
+<!-- END DINAMIC SECTION -->
+

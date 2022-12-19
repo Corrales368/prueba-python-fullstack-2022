@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import ProtectedError
 
 # Import self app
 from .models import Film, Category, FilmUser
@@ -33,6 +34,7 @@ class FilmCreateView(LoginRequiredMixin, CreateView):
     template_name = 'film/film/create.html'
     model = Film
     form_class = FilmForm
+    success_url = reverse_lazy('film:list-film')
 
 
 class FilmListView(LoginRequiredMixin, ListView):
@@ -65,6 +67,7 @@ class FilmUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'film/film/update.html'
     model = Film
     form_class = FilmForm
+    success_url = reverse_lazy('film:list-film')
 
 
 class FilmDeleteView(LoginRequiredMixin, DeleteView):
@@ -73,7 +76,7 @@ class FilmDeleteView(LoginRequiredMixin, DeleteView):
     """
     template_name = 'film/film/delete.html'
     model = Film
-    success_url = reverse_lazy('category:list')
+    success_url = reverse_lazy('film:list')
 
     def get(self, request, *args, **kwargs):
         """
@@ -139,6 +142,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'film/category/create.html'
     model = Category
     form_class = CategoryForm
+    success_url = reverse_lazy('film:list-category')
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
@@ -148,6 +152,12 @@ class CategoryListView(LoginRequiredMixin, ListView):
     template_name = 'film/category/list.html'
     model = Category
 
+    def get_queryset(self):
+        """
+        Override method get_queryset for change query a custom manager
+        """
+        return self.model.objects.get_films_by_category()
+
 
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     """
@@ -156,6 +166,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'film/category/update.html'
     model = Category
     form_class = CategoryForm
+    success_url = reverse_lazy('film:list-category')
 
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
@@ -164,13 +175,25 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     """
     template_name = 'film/category/delete.html'
     model = Category
-    success_url = reverse_lazy('category:list')
-
-    def get(self, request, *args, **kwargs):
+    success_url = reverse_lazy('film:list-category')
+    
+    def delete(self, request, *args , **kwargs):
         """
-        Override get method for delete category without confirmation and template
+        Override method delete for show message alert if instance have relations
         """
-        return self.delete(request, *args, **kwargs)
+        # try:
+        #     return super().delete(request, *args, **kwargs)
+        # except Exception as e:
+        #     print('++++++++++++++++')
+        #     return render(request, self.template_name, {'errors' : str(e)})
+        # self.object = self.get_object()
+        # success_url = self.get_success_url()
+        # error_url = self.get_error_url()
+        # try:
+        #     self.object.delete()
+        #     return HttpResponseRedirect(self.success_url)
+        # except ProtectedError:
+        #     return HttpResponseRedirect('error_url')
 
     
 class CategoryDetailView(LoginRequiredMixin, DetailView):

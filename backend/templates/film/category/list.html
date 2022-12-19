@@ -6,7 +6,42 @@
 <div>
     <div class="container py-4">
         {% include 'base/header.html' %}
-
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">List categories</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>N° films</th>
+                            <th class="text-center">Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in object_list %}
+                        <tr>
+                            <td>{{category.pk}}</td>
+                            <td>{{category.name}}</td>
+                            <td>{{category.count_film_by_category}}</td>
+                            <td class="text-center">
+                                <a href="{% url 'film:detail-category' category.pk %}"
+                                    class="btn btn-sm btn-outline-primary">More info</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No data</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="mt-4">
+                    <a href="{% url 'film:create-category' %}" class="btn btn-outline-primary btn-lg">Add category</a>
+                    <a href="{% url 'home:explore' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
+                </div>
+            </div>
+        </div>
         {% include 'base/footer.html' %}
     </div>
 </div>

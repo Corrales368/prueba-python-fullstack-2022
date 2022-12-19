@@ -1,0 +1,39 @@
+<!-- HERENCIA DE BASE -->
+{% extends 'base/base.html' %}
+
+<!-- CARGAR ARCHIVOS ESTÁTICOS -->
+{% load static %}
+
+<!-- START DINAMIC SECTION -->
+{% block content %}
+<main>
+    <div class="container py-4">
+        {% include 'base/header.html' %}
+
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <h1 class="display-5 fw-bold">Category: {{ object.name }}</h1>
+                        <p class="col-md-8 fs-4">Pk: {{ object.pk }}</p>
+                        <p class="col-md-8 fs-4">Count of films with this category: {{ object.pk }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'film:update-category' object.pk %}" class="btn btn-primary btn-lg">Update</a>
+                    <a href="{% url 'film:delete-category' object.pk %}" class="btn btn-danger btn-lg">Delete</a>
+                    <a href="{% url 'film:list-category' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
+                </div>
+                <div class="col ">
+                    
+                </div>
+            </div>
+        </div>
+        {% include 'base/footer.html' %}
+    </div>
+</main>
+{% endblock content %}
+<!-- END DINAMIC SECTION -->
+
