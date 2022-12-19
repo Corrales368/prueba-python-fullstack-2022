@@ -31,14 +31,3 @@ Puede navegar (http://localhost:8000/swagger/)
 
 ### ¿Quiere conocer mi backoffice?
 No tengo nada que mostrar en está ocasión, fueron un par de hojas de cuaderno rayadas. Prefiero escribir ideas a mano que de forma digital
-
-#### Evidencias
-
-#### S3
-![](http://corralesdev.com/wp-content/uploads/2022/10/s3_bucket_standard.png)
-
-#### Render
-![](http://corralesdev.com/wp-content/uploads/2022/10/render_web_service.png)
-
-#### RDS
-![](http://corralesdev.com/wp-content/uploads/2022/10/aws_rds_postgresql.png)
