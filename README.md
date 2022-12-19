@@ -31,3 +31,9 @@ Puede navegar (http://localhost:8000/swagger/)
 
 ### ¿Quiere conocer mi backoffice?
 No tengo nada que mostrar en está ocasión, fueron un par de hojas de cuaderno rayadas. Prefiero escribir ideas a mano que de forma digital
+
+### Sobre la base de datos
+
+Cree 3 tablas; film, category y una tabla de detalle filmuser con llaves compuestas entre la tabla user y film para evitar duplicado de registro con la misma pelicula o usuario.
+
+![](http://corralesdev.com/wp-content/uploads/2022/12/base-de-datos.png)
