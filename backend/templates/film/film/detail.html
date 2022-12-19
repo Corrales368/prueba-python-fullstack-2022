@@ -40,7 +40,7 @@
             </div>
             <div class="row py-4">
                 <div class="col">
-                    <h4>Average rating {{ object.avg_rating|default_if_none:"no reviews" }}</h4>
+                    <h4>Average rating: {{ object.avg_rating|default_if_none:"no reviews" }}</h4>
                 </div>
                 {% for k, v in errors.items %}
                     <div class="alert alert-danger mt-3" role="alert">

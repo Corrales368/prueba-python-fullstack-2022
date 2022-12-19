@@ -28,9 +28,7 @@ class OrderingByRating(django_filters.FilterSet):
         # get query_param
         ordering = request.query_params.get("ordering", None)
         if 'rating' == ordering:
-            print('1')
             return self.Meta.model.objects.get_average().order_by('avg_rating')
         if '-rating' == ordering:
-            print('2')
             return self.Meta.model.objects.get_average().order_by('-avg_rating')
         return queryset

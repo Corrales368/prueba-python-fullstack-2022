@@ -35,12 +35,22 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="5" class="text-center">No data</td>
+                            <td colspan="6" class="text-center">No data</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <div class="mt-5">
+                <form action="" method="get">
+                    <div class="row">
+                        <div class="col">
+                            {{ fomr_filter.form }}
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary mt-4">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-4">
                     <a href="{% url 'home:explore' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
                 </div>
             </div>

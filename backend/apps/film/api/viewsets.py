@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework.filters import OrderingFilter , SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-# Import 
-from random import choice
+# Import project apps
+from apps.shared.api.pagination import MediumPagination
 
 # Import self app
 from apps.film.models import Film
@@ -23,19 +23,7 @@ class RandomFilmModelViewSet(viewsets.ModelViewSet):
         """
         Override method get_queryset for get random film
         """
-        # get all films
-        all_films = self.get_serializer().Meta.model.objects.all()
-        # validate that data exists
-        if all_films:
-            # get all films only pk as list
-            all_films_pk_list = all_films.values_list('pk', flat=True)
-            # get id random with function choice from random
-            random_pk = choice(all_films_pk_list)
-            # get film with random_pk
-            random_film = all_films.filter(pk=random_pk)
-            return random_film
-        else:
-            return all_films
+        return self.get_serializer().Meta.model.objects.get_random_film()
 
 
 class FilmModelViewSet(viewsets.ModelViewSet):
@@ -49,3 +37,4 @@ class FilmModelViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name']
     ordering = ['pk', 'name', 'category', 'type']
     search_fields = ['name', 'type', 'category__name']
+    pagination_class = MediumPagination

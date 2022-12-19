@@ -43,6 +43,7 @@ PROJECT_APPS = [
     'apps.shared',
     'apps.user',
     'apps.home',
+    'apps.authentication'
 ]
 
 # THIRD_PARTY_APPS
@@ -149,6 +150,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User Model
 AUTH_USER_MODEL = 'user.User'
+
+#
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/explore'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']

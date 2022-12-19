@@ -12,6 +12,4 @@ router_film.register('random-film', RandomFilmModelViewSet, basename='random-fil
 router_film.register('films', FilmModelViewSet, basename='films')
 
 
-
-
 urlpatterns = router_film.urls

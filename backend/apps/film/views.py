@@ -5,15 +5,13 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-# Import 
-from random import choice
-
 # Import self app
 from .models import Film, Category, FilmUser
 from .forms import FilmForm, CategoryForm, FilmRateItForm
+from .filters import FilmFilterSet
 
 
-class RandomFilmTemplateView(TemplateView):
+class RandomFilmTemplateView(LoginRequiredMixin, TemplateView):
     """
     View for get random film
     """
@@ -24,23 +22,11 @@ class RandomFilmTemplateView(TemplateView):
         Override method get_context_data for get random film
         """
         context = super().get_context_data(**kwargs)
-        # get all films
-        all_films = Film.objects.all()
-        # validate that data exists
-        if all_films:
-            # get all films only pk as list
-            all_films_pk_list = all_films.values_list('pk', flat=True)
-            # get id random with function choice from random
-            random_pk = choice(all_films_pk_list)
-            # get film with random_pk
-            random_film = all_films.filter(pk=random_pk).first()
-            context['film'] = random_film
-            return context
+        context['random_film'] = Film.objects.get_random_film()
         return context
 
 
-
-class FilmCreateView(CreateView):
+class FilmCreateView(LoginRequiredMixin, CreateView):
     """
     Create new film
     """
@@ -49,7 +35,7 @@ class FilmCreateView(CreateView):
     form_class = FilmForm
 
 
-class FilmListView(ListView):
+class FilmListView(LoginRequiredMixin, ListView):
     """
     List all films
     """
@@ -61,9 +47,18 @@ class FilmListView(ListView):
         Override method get_queryset for change query a custom manager
         """
         return self.model.objects.get_average()
+    
+    def get_context_data(self, **kwargs):
+        """
+        Override method get_context_data for add form of filters
+        """
+        context = super().get_context_data(**kwargs)
+        context['fomr_filter'] = FilmFilterSet(self.request.GET, queryset=self.get_queryset())
+        context['object_list'] = context['fomr_filter'].qs
+        return context
 
 
-class FilmUpdateView(UpdateView):
+class FilmUpdateView(LoginRequiredMixin, UpdateView):
     """
     Update a film
     """
@@ -72,7 +67,7 @@ class FilmUpdateView(UpdateView):
     form_class = FilmForm
 
 
-class FilmDeleteView(DeleteView):
+class FilmDeleteView(LoginRequiredMixin, DeleteView):
     """
     Delete a film
     """
@@ -87,7 +82,7 @@ class FilmDeleteView(DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class FilmDetailView(DetailView):
+class FilmDetailView(LoginRequiredMixin, DetailView):
     """
     Detail a film
     """
@@ -120,12 +115,11 @@ class FilmDetailView(DetailView):
             return render(request, self.template_name, {'object' : self.get_object(), 'form_rate_it' : form,'errors' : form.errors})
 
 
-class RatingCreateOrUpdate(TemplateView):
+class RatingCreateOrUpdate(LoginRequiredMixin, TemplateView):
     """
     Rate it film get or create
     """
     def post(self, request):
-        print(request.POST)
         form = FilmRateItForm(request.POST, instance=FilmUser.objects.get_by_user_and_film(self.request.user, self.kwargs['object']))
         if form.is_valid():
             instance = form.save(commit=False)
@@ -138,7 +132,7 @@ class RatingCreateOrUpdate(TemplateView):
         pass
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     """
     Create a new category
     """
@@ -147,7 +141,7 @@ class CategoryCreateView(CreateView):
     form_class = CategoryForm
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     """
     List all categories
     """
@@ -155,7 +149,7 @@ class CategoryListView(ListView):
     model = Category
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     """
     Update a category
     """
@@ -164,7 +158,7 @@ class CategoryUpdateView(UpdateView):
     form_class = CategoryForm
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     """
     Delete a category
     """
@@ -179,7 +173,7 @@ class CategoryDeleteView(DeleteView):
         return self.delete(request, *args, **kwargs)
 
     
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     """
     Detail a category
     """

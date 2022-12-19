@@ -26,7 +26,7 @@ schema_view = get_schema_view(
       title="Prueba Python Fullstack 2022",
       default_version='v1',
       description="Prueba Python Fullstack 2022",
-      terms_of_service="#",
+      terms_of_service="https://corralesdev.com/",
       contact=openapi.Contact(email="santi368444110@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
@@ -40,4 +40,6 @@ urlpatterns = [
     path('api/', include('apps.film.api.routers')),
     path('', include('apps.film.urls')),
     path('', include('apps.home.urls')),
+    path('', include('apps.authentication.urls')),
 ]
+

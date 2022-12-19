@@ -12,9 +12,11 @@
 
         <div class="p-5 mb-4 bg-light rounded-3">
             <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">{{ film.name }}</h1>
-                <p class="col-md-8 fs-4">{{ film.category }}</p>
-                <p class="col-md-8 fs-4">{{ film.type }}</p>
+                {% for film in random_film %}
+                    <h1 class="display-5 fw-bold">{{ film.name }}</h1>
+                    <p class="col-md-8 fs-4">{{ film.category }}</p>
+                    <p class="col-md-8 fs-4">{{ film.type }}</p>
+                {% endfor %}
                 <a href="{% url 'film:random-film' %}" class="btn btn-primary btn-lg">Surprise me again</a>
                 <a href="{% url 'home:explore' %}" class="btn btn-secondary btn-lg">Back</a>
             </div>

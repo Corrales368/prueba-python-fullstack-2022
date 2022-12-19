@@ -1,7 +1,4 @@
-# Import django
-from django import forms
-
-# Imprt third party apps
+# Import third party apps
 from apps.shared.forms import BaseModelForm
 
 # Import self app
