@@ -25,13 +25,11 @@ class FilmManager(models.Manager):
     """
     def get_average(self):
         """
-        Get average rating all records film
+        Get the average rating of all films records and count the views
         """
-        average = self.annotate(
-            avg_rating=models.Avg('filmuser__rating')
-        ).annotate(
-            count_watched=models.Count('filmuser__watched')
-        )
+        average = self \
+        .annotate(avg_rating=models.Avg('filmuser__rating')) \
+        .annotate(count_watched=models.Count('filmuser__watched', filter=models.Q(filmuser__watched=True)))
         return average
     
     def get_random_film(self):

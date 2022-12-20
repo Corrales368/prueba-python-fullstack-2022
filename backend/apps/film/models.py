@@ -28,10 +28,11 @@ class Film(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     type = models.CharField(max_length=10, choices=TYPE_FILM)
 
+    objects = FilmManager()
+    
     def __str__(self) -> str:
         return self.name
     
-    objects = FilmManager()
 
 
 class FilmUser(models.Model):
@@ -56,5 +57,5 @@ class FilmUser(models.Model):
         ]
     
     def __str__(self) -> str:
-        return f'{self.film} - {self.user} - {self.rating}'
+        return f'{self.film} - {self.user} - {self.rating} - {self.watched}'
     
