@@ -2,7 +2,7 @@
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.db.models import ProtectedError
 
@@ -49,13 +49,14 @@ class FilmListView(LoginRequiredMixin, ListView):
         Override method get_queryset for change query a custom manager
         """
         return self.model.objects.get_average()
-    
+
     def get_context_data(self, **kwargs):
         """
         Override method get_context_data for add form of filters
         """
         context = super().get_context_data(**kwargs)
-        context['fomr_filter'] = FilmFilterSet(self.request.GET, queryset=self.get_queryset())
+        context['fomr_filter'] = FilmFilterSet(
+            self.request.GET, queryset=self.get_queryset())
         context['object_list'] = context['fomr_filter'].qs
         return context
 
@@ -103,11 +104,13 @@ class FilmDetailView(LoginRequiredMixin, DetailView):
         Override metho get_context_data for include form
         """
         context = super().get_context_data(**kwargs)
-        context['form_rate_it'] = FilmRateItForm(instance=FilmUser.objects.get_by_user_and_film(self.request.user, kwargs['object']))
+        context['form_rate_it'] = FilmRateItForm(
+            instance=FilmUser.objects.get_by_user_and_film(self.request.user, kwargs['object']))
         return context
-        
+
     def post(self, request, pk):
-        form = FilmRateItForm(request.POST, instance=FilmUser.objects.get_by_user_and_film(self.request.user, pk))
+        form = FilmRateItForm(
+            request.POST, instance=FilmUser.objects.get_by_user_and_film(self.request.user, pk))
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
@@ -115,21 +118,23 @@ class FilmDetailView(LoginRequiredMixin, DetailView):
             instance.save()
             return HttpResponseRedirect(reverse_lazy('film:list-film'))
         else:
-            return render(request, self.template_name, {'object' : self.get_object(), 'form_rate_it' : form,'errors' : form.errors})
+            return render(request, self.template_name, {'object': self.get_object(), 'form_rate_it': form, 'errors': form.errors})
 
 
 class RatingCreateOrUpdate(LoginRequiredMixin, TemplateView):
     """
     Rate it film get or create
     """
+
     def post(self, request):
-        form = FilmRateItForm(request.POST, instance=FilmUser.objects.get_by_user_and_film(self.request.user, self.kwargs['object']))
+        form = FilmRateItForm(request.POST, instance=FilmUser.objects.get_by_user_and_film(
+            self.request.user, self.kwargs['object']))
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.film = self.kwargs['object']
             instance.save()
-        return 
+        return
 
     def get(self):
         pass
@@ -176,26 +181,20 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'film/category/delete.html'
     model = Category
     success_url = reverse_lazy('film:list-category')
-    
-    def delete(self, request, *args , **kwargs):
-        """
-        Override method delete for show message alert if instance have relations
-        """
-        # try:
-        #     return super().delete(request, *args, **kwargs)
-        # except Exception as e:
-        #     print('++++++++++++++++')
-        #     return render(request, self.template_name, {'errors' : str(e)})
-        # self.object = self.get_object()
-        # success_url = self.get_success_url()
-        # error_url = self.get_error_url()
-        # try:
-        #     self.object.delete()
-        #     return HttpResponseRedirect(self.success_url)
-        # except ProtectedError:
-        #     return HttpResponseRedirect('error_url')
 
-    
+    def post(self, request, *args, **kwargs):
+        """
+        Override method post for show message alert if instance have relations
+        """
+        try:
+            self.object = self.get_object()
+            success_url = self.get_success_url()
+            self.object.delete()
+            return HttpResponseRedirect(success_url)
+        except ProtectedError as e:
+            return render(request, self.template_name, {'object': self.get_object(), 'protected_objects': e.protected_objects, 'error' : e})
+
+
 class CategoryDetailView(LoginRequiredMixin, DetailView):
     """
     Detail a category

@@ -25,6 +25,16 @@
                     </div>
                 </div>
             </form>
+            {% if error %}
+                <div class="alert alert-danger my-4" role="alert">
+                    {{ error }}
+                    <ul>
+                        {% for protect in protected_objects %}
+                            <li>{{ protect }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         </div>
         {% include 'base/footer.html' %}
     </div>
