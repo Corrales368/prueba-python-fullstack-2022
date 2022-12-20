@@ -77,7 +77,7 @@ class FilmDeleteView(LoginRequiredMixin, DeleteView):
     """
     template_name = 'film/film/delete.html'
     model = Film
-    success_url = reverse_lazy('film:list')
+    success_url = reverse_lazy('film:list-film')
 
     def get(self, request, *args, **kwargs):
         """

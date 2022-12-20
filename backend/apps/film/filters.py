@@ -10,11 +10,6 @@ class FilmFilterSet(django_filters.FilterSet):
     FilterSet for name icontains, category, type
     """
     name = django_filters.CharFilter(lookup_expr='icontains')
-    rating = django_filters.OrderingFilter(
-        fields=(
-            ('avg_rating', 'avg_rating'),
-        ),
-    )
 
     o = django_filters.OrderingFilter(
         # tuple-mapping retains order
@@ -22,6 +17,7 @@ class FilmFilterSet(django_filters.FilterSet):
             ('name', 'name'),
             ('category', 'category'),
             ('type', 'type'),
+            ('avg_rating', 'avg_rating'),
         ),
 
     )

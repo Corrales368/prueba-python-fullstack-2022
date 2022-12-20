@@ -1,3 +1,6 @@
+# Import django
+from django import forms
+
 # Import third party apps
 from apps.shared.forms import BaseModelForm
 
@@ -23,11 +26,11 @@ class CategoryForm(BaseModelForm):
         fields = '__all__'
 
 
-class FilmRateItForm(BaseModelForm):
+class FilmRateItForm(forms.ModelForm):
     """
     Form for model filmuser
     """
     class Meta:
         model = FilmUser
-        fields = ('rating',)
+        fields = ('rating', 'watched')
     
