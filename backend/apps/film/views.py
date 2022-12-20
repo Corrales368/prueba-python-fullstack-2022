@@ -2,7 +2,7 @@
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.db.models import ProtectedError
 
@@ -48,7 +48,10 @@ class FilmListView(LoginRequiredMixin, ListView):
         """
         Override method get_queryset for change query a custom manager
         """
-        return self.model.objects.get_average()
+        a = self.model.objects.get_average()
+        for i in a:
+            print(i.count_watched)
+        return a
 
     def get_context_data(self, **kwargs):
         """

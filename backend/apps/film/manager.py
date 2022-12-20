@@ -29,6 +29,8 @@ class FilmManager(models.Manager):
         """
         average = self.annotate(
             avg_rating=models.Avg('filmuser__rating')
+        ).annotate(
+            count_watched=models.Count('filmuser__watched')
         )
         return average
     

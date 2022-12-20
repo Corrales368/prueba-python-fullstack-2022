@@ -27,7 +27,7 @@
                             <th>Category</th>
                             <th>Type</th>
                             <th>Rating</th>
-                            <th>Watched</th>
+                            <th>N° views</th>
                             <th class="text-center">Detail</th>
                         </tr>
                     </thead>
@@ -39,17 +39,7 @@
                             <td>{{film.category}}</td>
                             <td>{{film.type}}</td>
                             <td>{{film.avg_rating|default_if_none:"no reviews"}}</td>
-                            <td>
-                                {% for fu in film.filmuser_set.all %}
-                                    {% if fu.watched %}
-                                        Yes
-                                        {% else %}
-                                        Nou
-                                    {% endif %}
-                                    {% empty %}
-                                        No data
-                                {% endfor %}
-                            </td>
+                            <td>{{film.count_watched}}</td>
                             <td class="text-center">
                                 <a href="{% url 'film:detail-film' film.pk %}"
                                     class="btn btn-sm btn-outline-primary">More info</a>
