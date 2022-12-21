@@ -49,6 +49,7 @@ PROJECT_APPS = [
 # THIRD_PARTY_APPS
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'drf_yasg',
 ]
@@ -157,4 +158,14 @@ LOGIN_REDIRECT_URL = '/explore'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
 }

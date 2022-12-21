@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
+from rest_framework.authtoken import views
+
+# Import third apps
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -37,6 +40,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('api-token-auth/', views.obtain_auth_token),
     path('api/', include('apps.film.api.routers')),
     path('', include('apps.film.urls')),
     path('', include('apps.home.urls')),
