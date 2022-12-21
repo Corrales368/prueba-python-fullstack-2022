@@ -7,7 +7,6 @@ app_name = 'film'
 
 urlpatterns = [
     path('random-film', views.RandomFilmTemplateView.as_view() ,name='random-film'),
-    path('rate-it', views.RatingCreateOrUpdate.as_view(), name='rate-it-film'),
 
     path('create-film', views.FilmCreateView.as_view(), name='create-film'),
     path('list-film', views.FilmListView.as_view(), name='list-film'),

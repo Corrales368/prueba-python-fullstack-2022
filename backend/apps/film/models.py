@@ -53,7 +53,7 @@ class FilmUser(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['film', 'user'], name='algunnombre')
+            models.UniqueConstraint(fields=['film', 'user'], name='unique_film_user')
         ]
     
     def __str__(self) -> str:

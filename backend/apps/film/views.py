@@ -48,10 +48,8 @@ class FilmListView(LoginRequiredMixin, ListView):
         """
         Override method get_queryset for change query a custom manager
         """
-        a = self.model.objects.get_average()
-        for i in a:
-            print(i.count_watched)
-        return a
+        return self.model.objects.get_average()
+
 
     def get_context_data(self, **kwargs):
         """
@@ -122,25 +120,6 @@ class FilmDetailView(LoginRequiredMixin, DetailView):
             return HttpResponseRedirect(reverse_lazy('film:list-film'))
         else:
             return render(request, self.template_name, {'object': self.get_object(), 'form_rate_it': form, 'errors': form.errors})
-
-
-class RatingCreateOrUpdate(LoginRequiredMixin, TemplateView):
-    """
-    Rate it film get or create
-    """
-
-    def post(self, request):
-        form = FilmRateItForm(request.POST, instance=FilmUser.objects.get_by_user_and_film(
-            self.request.user, self.kwargs['object']))
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.film = self.kwargs['object']
-            instance.save()
-        return
-
-    def get(self):
-        pass
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):

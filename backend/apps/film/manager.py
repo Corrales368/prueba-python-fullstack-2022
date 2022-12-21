@@ -1,6 +1,5 @@
 # Import django
 from django.db import models
-from django.db.models import Q
 
 # Import 
 from random import choice
@@ -55,6 +54,6 @@ class FilmUserManager(models.Manager):
         """
         Get average rating all records film
         """
-        query = self.filter(Q(user=user) & Q(film=film)).first()
+        query = self.filter(models.Q(user=user) & models.Q(film=film)).first()
         return query
         
